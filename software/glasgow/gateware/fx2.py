@@ -226,6 +226,7 @@ class FX2Arbiter(Module):
             If(addr[1],
                 NextState("SETUP-IN")
             ).Else(
+                slrd.eq(1),
                 NextState("SETUP-OUT")
             )
         )
@@ -273,6 +274,7 @@ class FX2Arbiter(Module):
             If(rdy.part(addr, 1),
                 slrd.eq(self.out_fifos[addr[0]].fifo.writable),
             ).Else(
+                self.out_fifos[addr[0]].we.eq(1),
                 NextState("NEXT")
             )
         )

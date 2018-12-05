@@ -196,7 +196,7 @@ class SelfTestApplet(GlasgowApplet, name="selftest"):
                     self, self.mux_interface_2, None)
 
                 data_1 = b"The quick brown fox jumps over the lazy dog.\x55\xaa"
-                data_2 = bytes(reversed(data_1))
+                data_2 = b"<<" + bytes(reversed(data_1)) + b">>"
 
                 for iface, data, ep_out, ep_in in (
                     (iface_1, data_1, "EP2OUT", "EP6IN"),

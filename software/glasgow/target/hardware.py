@@ -26,16 +26,10 @@ class _CRG(Module):
         self.clock_domains.cd_por = ClockDomain(reset_less=True)
         self.clock_domains.cd_sys = ClockDomain()
 
-        clk_if  = platform.request("clk_if")
-        clk_buf = Signal()
         self.specials += [
-            Instance("SB_IO",
+            Instance("SB_GB_IO",
                 p_PIN_TYPE=C(0b000001, 6),
-                io_PACKAGE_PIN=clk_if,
-                o_D_IN_0=clk_buf,
-            ),
-            Instance("SB_GB",
-                i_USER_SIGNAL_TO_GLOBAL_BUFFER=clk_buf,
+                io_PACKAGE_PIN=platform.request("clk_if"),
                 o_GLOBAL_BUFFER_OUTPUT=self.cd_por.clk,
             ),
         ]
