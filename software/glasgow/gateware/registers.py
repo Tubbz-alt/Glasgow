@@ -1,4 +1,4 @@
-from migen import *
+from nmigen.compat import *
 
 
 __all__ = ["Registers", "I2CRegisters"]
@@ -78,7 +78,6 @@ class I2CRegisters(Registers):
 # -------------------------------------------------------------------------------------------------
 
 import unittest
-from migen.fhdl import verilog
 
 from . import simulation_test
 from .i2c import I2CSlaveTestbench
@@ -148,7 +147,3 @@ class I2CRegistersTestCase(unittest.TestCase):
         self.assertEqual((yield from tb.i2c.read_octet()), 0b10100101)
         yield from tb.i2c.write_bit(1)
         yield from tb.i2c.stop()
-
-
-if __name__ == "__main__":
-    verilog.convert(I2CSlave(None)).write("registers.v")

@@ -2,8 +2,8 @@ import struct
 import logging
 import asyncio
 from bitarray import bitarray
-from migen import *
-from migen.genlib.cdc import MultiReg
+from nmigen.compat import *
+from nmigen.compat.genlib.cdc import MultiReg
 
 from .. import *
 from ...support.pyrepl import *

@@ -1,5 +1,5 @@
-from migen import *
-from migen.genlib.cdc import MultiReg
+from nmigen.compat import *
+from nmigen.compat.genlib.cdc import MultiReg
 
 
 __all__ = ['UART', 'uart_bit_cyc']
@@ -292,7 +292,6 @@ class UART(Module):
 # -------------------------------------------------------------------------------------------------
 
 import unittest
-from migen.fhdl import verilog
 
 from . import simulation_test
 

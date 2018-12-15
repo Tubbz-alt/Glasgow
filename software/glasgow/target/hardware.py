@@ -4,7 +4,7 @@ import sys
 import tempfile
 import shutil
 import logging
-from migen import *
+from nmigen.compat import *
 
 from ..gateware.pads import Pads
 from ..gateware.i2c import I2CSlave

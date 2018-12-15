@@ -1,7 +1,7 @@
 import argparse
 import logging
 import math
-from migen import *
+from nmigen.compat import *
 
 from .. import *
 from ...support.pyrepl import *

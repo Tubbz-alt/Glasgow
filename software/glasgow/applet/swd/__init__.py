@@ -4,7 +4,7 @@ import logging
 import asyncio
 import struct
 import math
-from migen import *
+from nmigen.compat import *
 
 from .. import *
 from ...gateware.pads import *

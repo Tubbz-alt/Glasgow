@@ -1,7 +1,7 @@
 import math
 import argparse
 import logging
-from migen import *
+from nmigen.compat import *
 
 from .. import *
 

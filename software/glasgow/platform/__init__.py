@@ -1,5 +1,5 @@
-from migen.build.generic_platform import *
-from migen.build.lattice import LatticePlatform
+from nmigen.compat.build.generic_platform import *
+from nmigen.compat.build.lattice import LatticePlatform
 
 from .programmer import GlasgowProgrammer
 

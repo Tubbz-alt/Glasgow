@@ -9,8 +9,8 @@ import time
 import math
 import argparse
 import logging
-from migen import *
-from migen.genlib.cdc import MultiReg
+from nmigen.compat import *
+from nmigen.compat.genlib.cdc import MultiReg
 
 from .. import *
 

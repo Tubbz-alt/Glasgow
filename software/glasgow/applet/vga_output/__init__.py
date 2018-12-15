@@ -1,5 +1,5 @@
 import logging
-from migen import *
+from nmigen.compat import *
 
 from .. import *
 from ...gateware.pads import *

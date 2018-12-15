@@ -1,4 +1,4 @@
-from migen import *
+from nmigen.compat import *
 
 from ..arch.boneless.opcode import *
 
@@ -785,7 +785,7 @@ class BonelessTestCase(unittest.TestCase):
 # -------------------------------------------------------------------------------------------------
 
 import argparse
-from migen.fhdl import verilog
+from nmigen.compat.fhdl import verilog
 
 
 class BonelessTestbench(Module):
