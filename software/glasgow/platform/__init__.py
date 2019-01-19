@@ -8,31 +8,36 @@ __all__ = ['Platform']
 
 
 _io = [
-    ("clk_fx", 0, Pins("44"), IOStandard("LVCMOS33")),
-    ("clk_if", 0, Pins("20"), IOStandard("LVCMOS33")),
+    ("clk_fx", 0, Pins("L5"), IOStandard("LVCMOS33")),
+    ("clk_if", 0, Pins("K6"), IOStandard("LVCMOS33")),
 
     ("fx2", 0,
-        Subsignal("sloe", Pins("6")),
-        Subsignal("slrd", Pins("47")),
-        Subsignal("slwr", Pins("46")),
-        Subsignal("pktend", Pins("2")),
-        Subsignal("fifoadr", Pins("4 3")),
-        Subsignal("flag", Pins("11 10 9 48")),
-        Subsignal("fd", Pins("19 18 17 16 15 14 13 12")),
+        Subsignal("sloe", Pins("L3")),
+        Subsignal("slrd", Pins("J5")),
+        Subsignal("slwr", Pins("J4")),
+        Subsignal("pktend", Pins("L1")),
+        Subsignal("fifoadr", Pins("K3 L2")),
+        Subsignal("flag", Pins("L7 K5 L4 J3")),
+        Subsignal("fd", Pins("H7 J7 J9 K10 L10 K9 L8 K7")),
         IOStandard("LVCMOS33")
     ),
 
-    ("io", 0, Pins("45 43 42 38 37 36 35 34"), IOStandard("LVCMOS33")),
-    ("io", 1, Pins("32 31 28 27 26 25 23 21"), IOStandard("LVCMOS33")),
+    ("user_led", 0, Pins("G9 G8 E9 D9 E8"), IOStandard("LVCMOS33")),
+
+    ("io", 0, Pins("A1 A2 B3 A3 B6 A4 B7 A5"), IOStandard("LVCMOS33")),
+    ("io", 1, Pins("B11 C11 D10 D11 E10 E11 F11 F10"), IOStandard("LVCMOS33")),
+    
+    ("oe", 0, Pins("C7 C8 D7 A7 B8 A8 B9 A9"), IOStandard("LVCMOS33")),
+    ("oe", 1, Pins("F9 G11 G10 H11 H10 J11 J10 K11"), IOStandard("LVCMOS33")),
 
     ("i2c", 0,
-        Subsignal("scl", Pins("39")),
-        Subsignal("sda", Pins("40")),
+        Subsignal("scl", Pins("H9")),
+        Subsignal("sda", Pins("J8")),
         IOStandard("LVCMOS33")
     ),
 
     # open-drain
-    ("sync", 0, Pins("41"), IOStandard("LVCMOS33")),
+    ("sync", 0, Pins("A11"), IOStandard("LVCMOS33")),
 ]
 
 _connectors = [
@@ -44,7 +49,7 @@ class GlasgowPlatform(LatticePlatform):
     default_clk_period = 1e9 / 30e6
 
     def __init__(self):
-        LatticePlatform.__init__(self, "ice40-up5k-sg48", _io, _connectors,
+        LatticePlatform.__init__(self, "ice40-hx8k-bg121", _io, _connectors,
                                  toolchain="icestorm")
 
     def create_programmer(self):
