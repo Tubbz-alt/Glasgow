@@ -72,7 +72,7 @@ class SPIFlash25CInterface:
     async def _read_command(self, address, length, chunk_size, cmd, dummy=0,
                             callback=lambda done, total, status: None):
         if chunk_size is None:
-            chunk_size = 0xff # FIXME: raise once #44 is fixed
+            chunk_size = 0xffff
 
         data = bytearray()
         while length > len(data):
@@ -222,6 +222,8 @@ class SPIFlash25CApplet(SPIMasterApplet, name="spi-flash-25c"):
                 hold_t.o.eq(1),
             ]
 
+        return subtarget
+
     async def run(self, device, args):
         spi_iface = await self.run_lower(SPIFlash25CApplet, device, args)
         return SPIFlash25CInterface(spi_iface, self.logger)
@@ -350,7 +352,12 @@ class SPIFlash25CApplet(SPIMasterApplet, name="spi-flash-25c"):
                 await flash_iface.read_manufacturer_device_id()
             long_manufacturer_id, long_device_id = \
                 await flash_iface.read_manufacturer_long_device_id()
-            if long_manufacturer_id == manufacturer_id:
+            # If a flash does not support command 0x90 (read manufacturer/8-bit device ID),
+            # fall back to command 0x9F (read manufacturer/16-bit device ID). An example of
+            # such flash is the flash macro of Lattice iCE40 FPGA series. In response to command
+            # 0x90, it returns manufacturer ID 0xff, which is not a valid JEDEC ID as it fails
+            # the parity check.
+            if manufacturer_id == 0xff or long_manufacturer_id == manufacturer_id:
                 manufacturer_name = jedec_mfg_name_from_bytes([long_manufacturer_id]) or "unknown"
                 self.logger.info("JEDEC manufacturer %#04x (%s) device %#04x",
                                  long_manufacturer_id, manufacturer_name, long_device_id)
@@ -370,6 +377,7 @@ class SPIFlash25CApplet(SPIMasterApplet, name="spi-flash-25c"):
             if args.file:
                 args.file.write(data)
             else:
+                self._show_progress(0, 0, "")
                 print(data.hex())
 
         if args.operation in ("program-page", "program", "erase-program"):
