@@ -9,10 +9,30 @@ class SelfTestSubtarget(Module):
     def __init__(self, applet, target):
         t_a  = [TSTriple() for _ in range(8)]
         io_a = target.platform.request("io")
+        io_a_oe = target.platform.request("io_oe")
         self.specials += [t.get_tristate(io_a[i]) for i, t in enumerate(t_a)]
         t_b  = [TSTriple() for _ in range(8)]
         io_b = target.platform.request("io")
+        io_b_oe = target.platform.request("io_oe")
         self.specials += [t.get_tristate(io_b[i]) for i, t in enumerate(t_b)]
+
+        # LEDS!
+        leds = target.platform.request("user_led")
+
+        counter = Signal(25)
+
+        self.sync += [
+            counter.eq(counter + 2),
+            If(leds == 0, counter.eq(0))
+        ]
+
+        self.comb += [
+            If(counter[22:25] >= 4,
+                leds.eq(0x100 >> counter[22:25])
+            ).Else(
+                leds.eq(1 << counter[22:25])
+            )
+        ]
 
         reg_oe_a, applet.addr_oe_a = target.registers.add_rw(8)
         reg_o_a,  applet.addr_o_a  = target.registers.add_rw(8)
@@ -20,7 +40,8 @@ class SelfTestSubtarget(Module):
         self.comb += [
             Cat(t.oe for t in t_a).eq(reg_oe_a),
             Cat(t.o for t in t_a).eq(reg_o_a),
-            reg_i_a.eq(Cat(t.i for t in t_a))
+            reg_i_a.eq(Cat(t.i for t in t_a)),
+            io_a_oe.eq(reg_oe_a)
         ]
 
         reg_oe_b, applet.addr_oe_b = target.registers.add_rw(8)
@@ -29,7 +50,8 @@ class SelfTestSubtarget(Module):
         self.comb += [
             Cat(t.oe for t in t_b).eq(reg_oe_b),
             Cat(t.o for t in t_b).eq(reg_o_b),
-            reg_i_b.eq(Cat(t.i for t in t_b))
+            reg_i_b.eq(Cat(t.i for t in t_b)),
+            io_b_oe.eq(reg_oe_b)
         ]
 
 

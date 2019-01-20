@@ -61,6 +61,12 @@ class GlasgowHardwareTarget(Module):
 
         self.submodules.fx2_arbiter = FX2Arbiter(self.platform.request("fx2"))
 
+        # I'm sure there is a nicer way to do this. These pins are shared on the PCB with IO_A pins, so We need to tri-state them.
+        t_b  = [TSTriple() for _ in range(2)]
+        tri_b = self.platform.request("tri")
+        self.specials += [t.get_tristate(tri_b[i]) for i, t in enumerate(t_b)]
+        self.comb += Cat(t.oe for t in t_b).eq(0)
+
         if multiplexer_cls:
             ports = {
                 "A": lambda: self.platform.request("io", 0),

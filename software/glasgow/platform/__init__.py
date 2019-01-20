@@ -27,8 +27,8 @@ _io = [
     ("io", 0, Pins("A1 A2 B3 A3 B6 A4 B7 A5"), IOStandard("LVCMOS33")),
     ("io", 1, Pins("B11 C11 D10 D11 E10 E11 F11 F10"), IOStandard("LVCMOS33")),
     
-    ("oe", 0, Pins("C7 C8 D7 A7 B8 A8 B9 A9"), IOStandard("LVCMOS33")),
-    ("oe", 1, Pins("F9 G11 G10 H11 H10 J11 J10 K11"), IOStandard("LVCMOS33")),
+    ("io_oe", 0, Pins("C7 C8 D7 A7 B8 A8 B9 A9"), IOStandard("LVCMOS33")),
+    ("io_oe", 1, Pins("F9 G11 G10 H11 H10 J11 J10 K11"), IOStandard("LVCMOS33")),
 
     ("i2c", 0,
         Subsignal("scl", Pins("H9")),
@@ -38,6 +38,9 @@ _io = [
 
     # open-drain
     ("sync", 0, Pins("A11"), IOStandard("LVCMOS33")),
+
+    #tri-state (Shared with IO_A 4/6 )
+    ("tri", 0, Pins("A6 B5"), IOStandard("LVCMOS33")),
 ]
 
 _connectors = [

@@ -8,6 +8,7 @@
 
 // PORTA pins
 #define PINA_ALERT_N  0
+#define PINA_CRESET_N 1
 #define PINA_CDONE    3
 // PORTB pins
 #define PINB_SI       2
@@ -15,7 +16,6 @@
 #define PINB_SCK      4
 // PORTD pins
 #define PIND_ENVA     0
-#define PIND_CRESET_N 1
 #define PIND_LED_CY   2
 #define PIND_LED_FPGA 3
 #define PIND_LED_ACT  4

@@ -9,8 +9,8 @@ void fpga_reset() {
   IFCONFIG &= ~(_IFCFG1|_IFCFG0);
 
   // Put FPGA in reset.
-  OED |=  (1<<PIND_CRESET_N);
-  IOD &= ~(1<<PIND_CRESET_N);
+  OEA |=  (1<<PINA_CRESET_N);
+  IOA &= ~(1<<PINA_CRESET_N);
   delay_us(1);
 
   // Configure config pins while FPGA is in reset.
@@ -20,7 +20,7 @@ void fpga_reset() {
   OEB |=  (1<<PINB_SCK)|(1<<PINB_SS_N)|(1<<PINB_SI);
 
   // Release FPGA reset.
-  IOD |=  (1<<PIND_CRESET_N);
+  IOA |=  (1<<PINA_CRESET_N);
   delay_us(1200); // 1200 us for HX8K, 800 us for others
 }
 
